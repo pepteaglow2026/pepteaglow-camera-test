@@ -2,57 +2,64 @@
 <html lang="en">
 <head>
   <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
   <meta name="referrer" content="no-referrer">
   <meta name="robots" content="noindex,nofollow,noarchive">
-  <title>Peptèa Glow · Camera Capture</title>
+  <meta name="theme-color" content="#fff5f7">
+  <title>Peptèa Glow · Capture Photo</title>
   <style>
-    :root{color-scheme:light;font-family:Inter,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;background:#f5f6f8;color:#172033}
+    :root{color-scheme:light;font-family:Inter,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;background:#fff7f8;color:#312431}
     *{box-sizing:border-box}
-    body{margin:0;min-height:100vh;display:flex;align-items:center;justify-content:center;padding:20px}
-    main{width:min(920px,100%);background:#fff;border:1px solid #e3e7ee;border-radius:22px;box-shadow:0 16px 50px rgba(24,39,75,.12);padding:clamp(18px,3vw,30px)}
-    h1{margin:0;font-size:clamp(22px,3vw,30px)}
-    .sub{margin:8px 0 22px;color:#657086;line-height:1.5}
-    .stage{position:relative;background:#111827;border-radius:16px;overflow:hidden;min-height:260px;aspect-ratio:16/9;display:flex;align-items:center;justify-content:center}
-    video,canvas,.photo{display:block;width:100%;height:100%;object-fit:contain;background:#111827}
-    canvas{display:none}
+    body{margin:0;min-height:100vh;min-height:100dvh;display:flex;align-items:center;justify-content:center;padding:clamp(10px,2.5vw,24px);background:linear-gradient(145deg,#fff8f9 0%,#fff1f4 100%)}
+    main{width:min(760px,100%);background:#fff;border:1px solid #f0dfe5;border-radius:22px;box-shadow:0 14px 48px rgba(91,43,61,.10);padding:clamp(14px,3vw,26px)}
+    header{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:16px}
+    .brand{display:flex;align-items:center;gap:10px;font-weight:800;letter-spacing:.01em;color:#79334f;font-size:16px}
+    .mark{width:34px;height:34px;border-radius:12px;background:#fce8ee;display:grid;place-items:center;font-size:19px}
+    .ready{font-size:11px;font-weight:700;color:#18704e;background:#eaf8f0;border-radius:999px;padding:7px 10px;white-space:nowrap}
+    h1{font-size:clamp(22px,4vw,30px);line-height:1.15;margin:4px 0 14px;color:#30232b}
+    .stage{position:relative;overflow:hidden;border-radius:16px;background:#16131a;aspect-ratio:4/3;max-height:min(62vh,620px);min-height:220px;display:flex;align-items:center;justify-content:center}
+    video,.photo{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;background:#16131a}
     .photo{display:none}
-    .placeholder{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;text-align:center;padding:24px;color:#d5dbea;line-height:1.5}
-    .controls{display:flex;flex-wrap:wrap;gap:10px;margin-top:16px;align-items:center}
-    button,select{border:0;border-radius:11px;padding:12px 16px;font-weight:700;font-size:14px;min-height:44px}
-    button{cursor:pointer;background:#086ea8;color:#fff}
-    button.secondary{background:#e9eef5;color:#24334b}
-    button.success{background:#13835b}
+    .placeholder{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;text-align:center;padding:24px;color:#f7e9ee;font-size:14px;line-height:1.5}
+    .placeholder .symbol{font-size:34px}
+    .controls{display:flex;gap:10px;flex-wrap:wrap;margin-top:14px}
+    button{appearance:none;border:0;border-radius:12px;min-height:48px;padding:12px 17px;font:700 14px/1.1 Inter,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;cursor:pointer;touch-action:manipulation}
     button:disabled{opacity:.45;cursor:not-allowed}
-    select{border:1px solid #d8deea;background:#fff;color:#24334b;max-width:100%;flex:1;min-width:180px}
-    #status{margin-top:14px;border-radius:10px;background:#f1f5f9;padding:12px 14px;color:#43516a;font-size:13px;line-height:1.5;min-height:44px}
-    #status.error{background:#fff1f1;color:#a12626}
+    .primary{background:#a94f70;color:#fff;flex:1;min-width:150px;box-shadow:0 4px 12px rgba(169,79,112,.16)}
+    .secondary{background:#f7edf1;color:#71344d}
+    .success{background:#18865d;color:#fff;flex:1;min-width:150px}
+    .quiet{margin-left:auto}
+    #status{margin-top:12px;min-height:40px;padding:10px 12px;border-radius:11px;background:#f7f2f4;color:#62505a;font-size:13px;line-height:1.45}
+    #status.error{background:#fff0f0;color:#a12626}
     #status.ok{background:#eaf8f0;color:#146342}
-    .privacy{margin-top:14px;color:#6c778b;font-size:12px;line-height:1.5}
+    .note{margin:10px 2px 0;color:#796a72;font-size:11px;line-height:1.45}
     .hidden{display:none!important}
-    @media(max-width:600px){body{padding:10px}main{padding:16px;border-radius:16px}.stage{aspect-ratio:4/3;min-height:240px}.controls button{flex:1}}
+    @media(max-width:520px){body{padding:0;background:#fff}main{min-height:100vh;min-height:100dvh;border:0;border-radius:0;box-shadow:none;padding:calc(12px + env(safe-area-inset-top)) 12px calc(14px + env(safe-area-inset-bottom))}.stage{aspect-ratio:3/4;max-height:62vh;min-height:250px}.controls button{flex:1 1 calc(50% - 6px)}.quiet{margin-left:0}}
+    @media(orientation:landscape) and (max-height:560px){body{padding:8px}main{padding:12px}.stage{aspect-ratio:16/9;max-height:54vh;min-height:150px}h1{font-size:21px;margin-bottom:8px}.controls{margin-top:8px}#status{margin-top:8px}}
   </style>
 </head>
 <body>
 <main>
-  <h1>📷 Peptèa Glow Camera</h1>
-  <p class="sub" id="captureLabel">Capture a proof image for the TEST Order Fulfillment app.</p>
-  <div class="stage">
+  <header>
+    <div class="brand"><span class="mark">✿</span><span>Peptèa Glow</span></div>
+    <span class="ready" id="connectionBadge">Connecting…</span>
+  </header>
+  <h1 id="captureTitle">Capture Photo</h1>
+  <section class="stage" aria-label="Camera preview">
     <video id="video" autoplay playsinline muted></video>
-    <canvas id="canvas"></canvas>
     <img id="photo" class="photo" alt="Captured photo preview">
-    <div id="placeholder" class="placeholder">The camera is off.<br>Choose <b>Start camera</b> to grant permission and show your camera preview.</div>
-  </div>
+    <div id="placeholder" class="placeholder"><span class="symbol">📷</span><span id="placeholderText">Opening camera…</span></div>
+  </section>
   <div class="controls">
-    <select id="cameraSelect" aria-label="Camera device" class="hidden"></select>
-    <button id="startButton" type="button">Start camera</button>
-    <button id="captureButton" type="button" class="secondary" disabled>Take photo</button>
-    <button id="retakeButton" type="button" class="secondary hidden">Retake</button>
-    <button id="useButton" type="button" class="success hidden">Use this photo</button>
-    <button id="cancelButton" type="button" class="secondary">Cancel</button>
+    <button id="captureButton" class="primary" type="button" disabled>Take Photo</button>
+    <button id="switchButton" class="secondary hidden" type="button">Switch Camera</button>
+    <button id="retakeButton" class="secondary hidden" type="button">Retake</button>
+    <button id="useButton" class="success hidden" type="button">Use Photo</button>
+    <button id="retryButton" class="primary hidden" type="button">Try Again</button>
+    <button id="cancelButton" class="secondary quiet" type="button">Cancel</button>
   </div>
-  <div id="status" role="status" aria-live="polite">Camera permission is requested only after you click Start camera. New photos stay in temporary page memory; no photo is sent until you click Use this photo.</div>
-  <p class="privacy">Privacy: this public static camera utility does not upload, save, or store photos. The camera frame is captured into temporary browser memory only. When you choose Use this photo, it is sent directly to the Fulfillment window that opened this page. The existing TEST app then handles compression and private Google Drive upload. Nothing is written to the phone gallery or laptop files by this camera page.</p>
+  <div id="status" role="status" aria-live="polite">Connecting to your order…</div>
+  <p class="note">Your photo is attached to the selected proof field only when you tap Use Photo. It is not saved to your device gallery.</p>
 </main>
 <script>
 (function(){
@@ -60,171 +67,250 @@
   var params = new URLSearchParams(window.location.hash.replace(/^#/, ''));
   var token = params.get('token') || '';
   var returnOrigin = params.get('returnOrigin') || '';
-  var label = params.get('label') || 'proof image';
+  var label = params.get('label') || 'Proof Photo';
   var video = document.getElementById('video');
-  var canvas = document.getElementById('canvas');
   var photo = document.getElementById('photo');
   var placeholder = document.getElementById('placeholder');
+  var placeholderText = document.getElementById('placeholderText');
   var status = document.getElementById('status');
-  var startButton = document.getElementById('startButton');
+  var badge = document.getElementById('connectionBadge');
   var captureButton = document.getElementById('captureButton');
+  var switchButton = document.getElementById('switchButton');
   var retakeButton = document.getElementById('retakeButton');
   var useButton = document.getElementById('useButton');
+  var retryButton = document.getElementById('retryButton');
   var cancelButton = document.getElementById('cancelButton');
-  var cameraSelect = document.getElementById('cameraSelect');
+  var canvas = document.createElement('canvas');
   var stream = null;
   var capturedDataUrl = '';
+  var currentDeviceId = '';
+  var cameraDevices = [];
   var finished = false;
+  var sending = false;
+  var openerCheckId = null;
+  var ackTimeoutId = null;
 
   function allowedParentOrigin(value){
     try {
       var u = new URL(value);
       var host = String(u.hostname || '').toLowerCase();
       if (u.protocol !== 'https:') return false;
-      // Apps Script may serve HTML Service from a host prefixed like
-      // n-<deployment>-script.googleusercontent.com (hyphen, not a dot).
-      return host === 'script.google.com' ||
-        host === 'script.googleusercontent.com' ||
-        host.endsWith('-script.googleusercontent.com') ||
-        host.endsWith('.script.googleusercontent.com');
+      return host === 'script.google.com' || host === 'script.googleusercontent.com' ||
+        host.endsWith('-script.googleusercontent.com') || host.endsWith('.script.googleusercontent.com');
     } catch(e) { return false; }
   }
   function setStatus(message, kind){
     status.textContent = message;
     status.className = kind || '';
-    status.id = 'status';
+  }
+  function setBadge(text, connected){
+    badge.textContent = text;
+    badge.style.background = connected ? '#eaf8f0' : '#fff0f0';
+    badge.style.color = connected ? '#18704e' : '#a12626';
   }
   function stopStream(){
-    if (stream) stream.getTracks().forEach(function(track){ try{track.stop();}catch(e){} });
+    if (stream) stream.getTracks().forEach(function(track){try{track.stop();}catch(e){}});
     stream = null;
     video.srcObject = null;
   }
+  function openerAvailable(){
+    try { return !!window.opener && !window.opener.closed; }
+    catch(e) { return false; }
+  }
   function sendMessage(message){
-    if (!window.opener || window.opener.closed) { setStatus('The Fulfillment window is no longer available. Reopen the camera from the order screen.', 'error'); return false; }
-    window.opener.postMessage(Object.assign({token:token}, message), returnOrigin);
-    return true;
+    if (!openerAvailable()) { setStatus('Your Fulfillment tab is no longer available. Close this tab and reopen Capture Photo from the order.', 'error'); setBadge('Reconnect needed', false); return false; }
+    try { window.opener.postMessage(Object.assign({token:token}, message), returnOrigin); return true; }
+    catch(e) { setStatus('Could not connect to Fulfillment. Keep this tab open and retry.', 'error'); return false; }
+  }
+  function showRetry(message){
+    captureButton.classList.add('hidden');
+    switchButton.classList.add('hidden');
+    retryButton.classList.remove('hidden');
+    placeholder.classList.remove('hidden');
+    placeholderText.textContent = message;
+    setBadge('Camera unavailable', false);
   }
   function showCameraError(err){
     var name = err && err.name ? err.name : '';
-    var message = 'Unable to open the camera.';
-    if (name === 'NotAllowedError' || name === 'PermissionDeniedError') message = 'Camera permission was denied. In Chrome, allow Camera access for this page, then click Start camera again.';
-    else if (name === 'NotFoundError' || name === 'DevicesNotFoundError') message = 'No camera was found. Connect or enable a webcam, then try again.';
-    else if (name === 'NotReadableError' || name === 'TrackStartError') message = 'The camera is busy or blocked by another app. Close apps using the camera and retry.';
-    else if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) message = 'This page cannot access camera APIs. Confirm it is opened over HTTPS in a current browser.';
-    else if (err && err.message) message += ' ' + err.message;
+    var message = 'Unable to open the camera. Please try again.';
+    if (name === 'NotAllowedError' || name === 'PermissionDeniedError' || name === 'SecurityError') message = 'Allow camera access for this page in your browser settings, then tap Try Again.';
+    else if (name === 'NotFoundError' || name === 'DevicesNotFoundError') message = 'No camera was found. Enable your phone camera or connect a webcam, then try again.';
+    else if (name === 'NotReadableError' || name === 'TrackStartError' || name === 'AbortError') message = 'The camera may be in use by another app. Close other camera apps and tap Try Again.';
+    else if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) message = 'Camera access is unavailable in this browser. Open Fulfillment in a current browser over HTTPS.';
     setStatus(message, 'error');
+    showRetry(message);
+  }
+  async function refreshCameraDevices(){
+    try {
+      if (!navigator.mediaDevices || !navigator.mediaDevices.enumerateDevices) return;
+      var devices = await navigator.mediaDevices.enumerateDevices();
+      cameraDevices = devices.filter(function(d){ return d.kind === 'videoinput' && d.deviceId; });
+      var track = stream && stream.getVideoTracks()[0];
+      currentDeviceId = track && track.getSettings ? (track.getSettings().deviceId || '') : currentDeviceId;
+      switchButton.classList.toggle('hidden', cameraDevices.length < 2);
+    } catch(e) { cameraDevices = []; switchButton.classList.add('hidden'); }
   }
   async function startCamera(deviceId){
+    retryButton.classList.add('hidden');
+    captureButton.disabled = true;
+    switchButton.classList.add('hidden');
+    placeholder.classList.remove('hidden');
+    placeholderText.textContent = 'Opening camera…';
+    photo.style.display = 'none';
+    video.style.display = 'block';
     stopStream();
     if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
-      showCameraError(new Error('getUserMedia is unavailable. HTTPS and a supported browser are required.'));
+      showCameraError(new Error('Camera API unavailable. HTTPS and a supported browser are required.'));
       return;
     }
     try {
-      var videoConstraint = deviceId ? {deviceId:{exact:deviceId}, width:{ideal:1920}, height:{ideal:1080}} : {facingMode:{ideal:'environment'}, width:{ideal:1920}, height:{ideal:1080}};
+      var videoConstraint = deviceId ? {deviceId:{exact:deviceId},width:{ideal:1920},height:{ideal:1080}} : {facingMode:{ideal:'environment'},width:{ideal:1920},height:{ideal:1080}};
       stream = await navigator.mediaDevices.getUserMedia({video:videoConstraint,audio:false});
       video.srcObject = stream;
+      video.muted = true;
       await video.play();
-      photo.style.display = 'none';
-      video.style.display = 'block';
-      placeholder.style.display = 'none';
+      var track = stream.getVideoTracks()[0];
+      currentDeviceId = track && track.getSettings ? (track.getSettings().deviceId || '') : (deviceId || '');
+      placeholder.classList.add('hidden');
+      captureButton.classList.remove('hidden');
       captureButton.disabled = false;
       retakeButton.classList.add('hidden');
       useButton.classList.add('hidden');
-      captureButton.classList.remove('hidden');
-      startButton.textContent = 'Restart camera';
-      await populateCameraList();
-      setStatus('Camera is ready. Frame the receipt or shipment proof, then click Take photo. On phones, the rear camera is preferred when available.', 'ok');
+      retryButton.classList.add('hidden');
+      await refreshCameraDevices();
+      setBadge('Camera ready', true);
+      setStatus('Ready. Frame your ' + label.toLowerCase() + ' and tap Take Photo.', 'ok');
     } catch(err){ showCameraError(err); }
   }
-  async function populateCameraList(){
-    try {
-      if (!navigator.mediaDevices.enumerateDevices) return;
-      var devices = await navigator.mediaDevices.enumerateDevices();
-      var cameras = devices.filter(function(d){return d.kind === 'videoinput';});
-      var current = stream && stream.getVideoTracks()[0] ? stream.getVideoTracks()[0].getSettings().deviceId : '';
-      cameraSelect.innerHTML = '';
-      cameras.forEach(function(d,i){
-        var option = document.createElement('option');
-        option.value = d.deviceId;
-        option.textContent = d.label || ('Camera ' + (i+1));
-        if (d.deviceId === current) option.selected = true;
-        cameraSelect.appendChild(option);
-      });
-      cameraSelect.classList.toggle('hidden', cameras.length < 2);
-    } catch(e) { /* Device enumeration is optional; default webcam remains usable. */ }
-  }
   async function makePhoto(){
-    if (!stream || !video.videoWidth || !video.videoHeight) { setStatus('The camera preview is not ready yet. Wait a moment and retry.', 'error'); return; }
+    if (!stream || !video.videoWidth || !video.videoHeight) { setStatus('The camera preview is not ready. Wait a moment and try again.', 'error'); return; }
+    captureButton.disabled = true;
     var maxEdge = 1920;
     var scale = Math.min(1, maxEdge / Math.max(video.videoWidth, video.videoHeight));
     canvas.width = Math.max(1, Math.round(video.videoWidth * scale));
     canvas.height = Math.max(1, Math.round(video.videoHeight * scale));
     var context = canvas.getContext('2d', {alpha:false});
     context.drawImage(video, 0, 0, canvas.width, canvas.height);
-    var qualities = [0.86,0.82,0.78,0.74,0.70];
-    var blob = null;
-    for (var i=0;i<qualities.length;i++){
-      blob = await new Promise(function(resolve){canvas.toBlob(resolve,'image/jpeg',qualities[i]);}.bind(null));
-      if (blob && blob.size <= 2600*1024) break;
+    var blob = await new Promise(function(resolve){ canvas.toBlob(resolve, 'image/jpeg', 0.82); });
+    if (!blob) { captureButton.disabled = false; setStatus('Could not prepare this photo. Please try again.', 'error'); return; }
+    if (blob.size > 2600 * 1024) {
+      var smaller = document.createElement('canvas');
+      var reduce = Math.sqrt((2600*1024) / blob.size) * 0.94;
+      smaller.width = Math.max(1, Math.round(canvas.width * reduce));
+      smaller.height = Math.max(1, Math.round(canvas.height * reduce));
+      smaller.getContext('2d', {alpha:false}).drawImage(canvas,0,0,smaller.width,smaller.height);
+      blob = await new Promise(function(resolve){ smaller.toBlob(resolve,'image/jpeg',0.76); });
     }
-    if (!blob) { setStatus('The browser could not create a JPEG. Please retry or use the normal upload field.', 'error'); return; }
-    if (blob.size > 3500*1024) { setStatus('The captured image is too large to transfer safely. Move closer to the document and retry.', 'error'); return; }
+    if (!blob || blob.size > 3000 * 1024) { captureButton.disabled = false; setStatus('This photo is too large to transfer. Move closer to the proof and take it again.', 'error'); return; }
     capturedDataUrl = await new Promise(function(resolve,reject){
       var reader = new FileReader();
       reader.onload = function(){resolve(String(reader.result || ''));};
-      reader.onerror = function(){reject(new Error('Could not read the captured image.'));};
+      reader.onerror = function(){reject(new Error('Could not prepare the captured photo.'));};
       reader.readAsDataURL(blob);
     });
     photo.src = capturedDataUrl;
     photo.style.display = 'block';
     video.style.display = 'none';
+    stopStream(); // Release the camera while the user reviews the still image.
     captureButton.classList.add('hidden');
+    switchButton.classList.add('hidden');
     retakeButton.classList.remove('hidden');
     useButton.classList.remove('hidden');
-    setStatus('Photo captured. Check that the text is readable, then choose Use this photo or Retake.', 'ok');
+    useButton.disabled = false;
+    setStatus('Check the photo. Retake it or choose Use Photo to attach it to your order.', 'ok');
   }
-  startButton.addEventListener('click', function(){ startCamera(cameraSelect.value || ''); });
-  cameraSelect.addEventListener('change', function(){ if (cameraSelect.value) startCamera(cameraSelect.value); });
-  captureButton.addEventListener('click', function(){ makePhoto().catch(showCameraError); });
-  retakeButton.addEventListener('click', function(){
-    capturedDataUrl = '';
-    photo.style.display = 'none';
-    video.style.display = 'block';
-    retakeButton.classList.add('hidden');
-    useButton.classList.add('hidden');
-    captureButton.classList.remove('hidden');
-    setStatus('Ready. Take another photo when you are satisfied with the framing.');
-  });
-  useButton.addEventListener('click', function(){
-    if (!capturedDataUrl || finished) return;
-    if (sendMessage({type:'PEPTEA_CAMERA_CAPTURE',mimeType:'image/jpeg',fileName:'pepteaglow-proof-'+Date.now()+'.jpg',dataUrl:capturedDataUrl})) {
-      finished = true;
-      stopStream();
-      useButton.disabled = true;
-      setStatus('Photo sent to the Fulfillment window. This camera tab will close.', 'ok');
-      window.setTimeout(function(){ try{window.close();}catch(e){} }, 600);
-    }
-  });
-  cancelButton.addEventListener('click', function(){
+  async function switchCamera(){
+    if (cameraDevices.length < 2) return;
+    var idx = cameraDevices.findIndex(function(d){return d.deviceId === currentDeviceId;});
+    var next = cameraDevices[(idx + 1 + cameraDevices.length) % cameraDevices.length];
+    await startCamera(next.deviceId);
+  }
+  function returnCapturedPhoto(){
+    if (!capturedDataUrl || finished || sending) return;
+    if (!openerAvailable()) { setStatus('Your Fulfillment tab has closed. This photo cannot be attached. Reopen Capture Photo from the order.', 'error'); setBadge('Reconnect needed', false); return; }
+    sending = true;
+    useButton.disabled = true;
+    setStatus('Attaching photo to your order…', '');
+    var ok = sendMessage({type:'PEPTEA_CAMERA_CAPTURE',mimeType:'image/jpeg',fileName:'pepteaglow-proof-'+Date.now()+'.jpg',dataUrl:capturedDataUrl});
+    if (!ok) { sending = false; useButton.disabled = false; return; }
+    ackTimeoutId = window.setTimeout(function(){
+      if (!finished) {
+        sending = false;
+        useButton.disabled = false;
+        setStatus('No confirmation received yet. Keep this photo and tap Use Photo to retry, or return to Fulfillment and use the file picker.', 'error');
+      }
+    }, 12000);
+  }
+  function cancelCapture(){
     if (!finished) sendMessage({type:'PEPTEA_CAMERA_CANCELLED'});
     finished = true;
+    if (ackTimeoutId) window.clearTimeout(ackTimeoutId);
     stopStream();
-    window.close();
+    try { window.close(); } catch(e) {}
+    setStatus('Capture cancelled. You can return to Fulfillment.');
+  }
+
+  captureButton.addEventListener('click', function(){ makePhoto().catch(function(err){ captureButton.disabled=false; showCameraError(err); }); });
+  switchButton.addEventListener('click', function(){ switchCamera().catch(showCameraError); });
+  retakeButton.addEventListener('click', function(){
+    capturedDataUrl = '';
+    photo.removeAttribute('src');
+    photo.style.display = 'none';
+    retakeButton.classList.add('hidden');
+    useButton.classList.add('hidden');
+    startCamera(currentDeviceId || '');
+  });
+  useButton.addEventListener('click', returnCapturedPhoto);
+  retryButton.addEventListener('click', function(){ startCamera(); });
+  cancelButton.addEventListener('click', cancelCapture);
+  window.addEventListener('message', function(event){
+    if (event.origin !== returnOrigin || event.source !== window.opener || !event.data || event.data.token !== token) return;
+    if (event.data.type !== 'PEPTEA_CAMERA_CAPTURE_ACK') return;
+    if (ackTimeoutId) window.clearTimeout(ackTimeoutId);
+    if (event.data.success) {
+      finished = true;
+      sending = false;
+      stopStream();
+      setBadge('Photo attached', true);
+      setStatus('Photo attached successfully. Returning to Fulfillment…', 'ok');
+      window.setTimeout(function(){ try{window.close();}catch(e){} }, 500);
+    } else {
+      sending = false;
+      useButton.disabled = false;
+      setStatus(event.data.message || 'The photo could not be attached. You can retry or cancel.', 'error');
+    }
   });
   window.addEventListener('beforeunload', stopStream);
 
-  document.getElementById('captureLabel').textContent = 'Capture ' + label + ' for the TEST Order Fulfillment app.';
-  if (!token || !/^[a-f0-9]{48}$/i.test(token) || !allowedParentOrigin(returnOrigin) || !window.opener) {
-    startButton.disabled = true;
+  document.getElementById('captureTitle').textContent = 'Capture ' + label;
+  if (!token || !/^[a-f0-9]{48}$/i.test(token) || !allowedParentOrigin(returnOrigin) || !openerAvailable()) {
     captureButton.disabled = true;
-    cameraSelect.disabled = true;
     cancelButton.textContent = 'Close';
-    setStatus('This camera page must be opened from an authorized TEST Order Fulfillment camera button. Close this tab and launch it from an order.', 'error');
+    showRetry('This camera page must be opened from an order in Fulfillment. Close this tab and try again.');
+    setStatus('Unable to connect to Fulfillment. Open the camera using the Capture Photo button on an order.', 'error');
+    setBadge('Not connected', false);
   } else {
-    setStatus('Connected to the TEST Fulfillment window. Click Start camera and allow webcam access when Chrome asks.');
-    try { window.opener.postMessage({type:'PEPTEA_CAMERA_READY',token:token}, returnOrigin); } catch(e) {}
+    setBadge('Connected', true);
+    setStatus('Connected. Requesting camera access…');
+    sendMessage({type:'PEPTEA_CAMERA_READY'});
+    openerCheckId = window.setInterval(function(){
+      if (!openerAvailable() && !finished) {
+        setBadge('Connection lost', false);
+        if (!sending) setStatus('Your Fulfillment tab is no longer available. This photo cannot be attached.', 'error');
+        captureButton.disabled = true;
+        useButton.disabled = true;
+        if (stream) stopStream();
+      }
+    }, 1500);
+    // Auto-start as soon as the authenticated camera page opens. The browser may
+    // display its standard permission prompt on first use; this cannot be bypassed.
+    startCamera();
   }
+  window.addEventListener('unload', function(){
+    stopStream();
+    if (openerCheckId) window.clearInterval(openerCheckId);
+    if (ackTimeoutId) window.clearTimeout(ackTimeoutId);
+  });
 })();
 </script>
 </body>
