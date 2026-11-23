@@ -79,8 +79,14 @@
   function allowedParentOrigin(value){
     try {
       var u = new URL(value);
+      var host = String(u.hostname || '').toLowerCase();
       if (u.protocol !== 'https:') return false;
-      return u.hostname === 'script.google.com' || u.hostname === 'script.googleusercontent.com' || /^([a-z0-9-]+\.)*script\.googleusercontent\.com$/i.test(u.hostname);
+      // Apps Script may serve HTML Service from a host prefixed like
+      // n-<deployment>-script.googleusercontent.com (hyphen, not a dot).
+      return host === 'script.google.com' ||
+        host === 'script.googleusercontent.com' ||
+        host.endsWith('-script.googleusercontent.com') ||
+        host.endsWith('.script.googleusercontent.com');
     } catch(e) { return false; }
   }
   function setStatus(message, kind){
