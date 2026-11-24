@@ -122,13 +122,19 @@
   var openerCheckId = null;
   var ackTimeoutId = null;
 
+  // Shared bridge: accepts HTTPS origins used by Google Apps Script web apps.
+  // Both the TEST and LIVE Fulfillment deployments launch this same camera page.
+  // The exact caller origin is then bound to this session and checked on every
+  // message, alongside window.opener and the one-time 192-bit token.
   function allowedParentOrigin(value){
     try {
       var u = new URL(value);
       var host = String(u.hostname || '').toLowerCase();
-      if (u.protocol !== 'https:') return false;
-      return host === 'script.google.com' || host === 'script.googleusercontent.com' ||
-        host.endsWith('-script.googleusercontent.com') || host.endsWith('.script.googleusercontent.com');
+      if (u.protocol !== 'https:' || u.username || u.password || u.port) return false;
+      return host === 'script.google.com' ||
+        host === 'script.googleusercontent.com' ||
+        host.endsWith('-script.googleusercontent.com') ||
+        host.endsWith('.script.googleusercontent.com');
     } catch(e) { return false; }
   }
   function setStatus(message, kind){ status.textContent = message; status.className = kind || ''; }
