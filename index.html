@@ -178,6 +178,7 @@
     attachButton.disabled = photos.length === 0 || sending;
     clearButton.disabled = photos.length === 0 || sending;
     captureButton.disabled = !!currentPhoto || photos.length >= remainingCapacity || !stream || sending;
+    captureButton.textContent = photos.length >= remainingCapacity ? 'Photo Limit Reached' : ('Take Photo (' + (existingCount + photos.length + 1) + '/' + maxTotal + ')');
     captureButton.classList.toggle('hidden', !!currentPhoto || photos.length >= remainingCapacity);
     switchButton.classList.toggle('hidden', cameraDevices.length < 2 || !!currentPhoto || photos.length >= remainingCapacity);
     photoQueue.innerHTML = '';
@@ -311,8 +312,8 @@
 
   document.getElementById('captureTitle').textContent = 'Capture ' + label;
   document.getElementById('captureDescription').textContent = remainingCapacity > 1
-    ? 'Capture up to ' + remainingCapacity + ' additional photos. Review the thumbnails, remove any you do not need, then attach the set.'
-    : 'Capture and review a photo. You can retake it before attaching it to this proof field.';
+    ? 'Capture up to ' + remainingCapacity + ' additional photos. After each shot, tap Add to Photo Set to keep it and return to the live camera. Repeat, then tap Attach Photos.'
+    : 'One photo is available for this field. Take the photo, review it, then tap Attach Photos.';
   if (!token || !/^[a-f0-9]{48}$/i.test(token) || !allowedParentOrigin(returnOrigin) || !openerAvailable()) {
     captureButton.disabled = true; cancelButton.textContent = 'Close';
     showRetry('This camera page must be opened from an order in Fulfillment. Close this tab and try again.');
