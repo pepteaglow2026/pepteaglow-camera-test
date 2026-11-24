@@ -6,36 +6,48 @@
   <meta name="referrer" content="no-referrer">
   <meta name="robots" content="noindex,nofollow,noarchive">
   <meta name="theme-color" content="#fff5f7">
-  <title>Peptèa Glow · Capture Photo</title>
+  <title>Peptèa Glow · Capture Proof Photos</title>
   <style>
     :root{color-scheme:light;font-family:Inter,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;background:#fff7f8;color:#312431}
     *{box-sizing:border-box}
     body{margin:0;min-height:100vh;min-height:100dvh;display:flex;align-items:center;justify-content:center;padding:clamp(10px,2.5vw,24px);background:linear-gradient(145deg,#fff8f9 0%,#fff1f4 100%)}
-    main{width:min(760px,100%);background:#fff;border:1px solid #f0dfe5;border-radius:22px;box-shadow:0 14px 48px rgba(91,43,61,.10);padding:clamp(14px,3vw,26px)}
+    main{width:min(820px,100%);background:#fff;border:1px solid #f0dfe5;border-radius:22px;box-shadow:0 14px 48px rgba(91,43,61,.10);padding:clamp(14px,3vw,26px)}
     header{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:16px}
     .brand{display:flex;align-items:center;gap:10px;font-weight:800;letter-spacing:.01em;color:#79334f;font-size:16px}
     .mark{width:34px;height:34px;border-radius:12px;background:#fce8ee;display:grid;place-items:center;font-size:19px}
     .ready{font-size:11px;font-weight:700;color:#18704e;background:#eaf8f0;border-radius:999px;padding:7px 10px;white-space:nowrap}
-    h1{font-size:clamp(22px,4vw,30px);line-height:1.15;margin:4px 0 14px;color:#30232b}
-    .stage{position:relative;overflow:hidden;border-radius:16px;background:#16131a;aspect-ratio:4/3;max-height:min(62vh,620px);min-height:220px;display:flex;align-items:center;justify-content:center}
+    h1{font-size:clamp(22px,4vw,30px);line-height:1.15;margin:4px 0 6px;color:#30232b}
+    .sub{margin:0 0 14px;color:#74636c;font-size:12px;line-height:1.45}
+    .counter{display:inline-flex;align-items:center;gap:7px;margin:0 0 10px;padding:7px 11px;border-radius:999px;background:#fcecf1;color:#863b58;font-weight:800;font-size:12px}
+    .stage{position:relative;overflow:hidden;border-radius:16px;background:#16131a;aspect-ratio:4/3;max-height:min(58vh,580px);min-height:220px;display:flex;align-items:center;justify-content:center}
     video,.photo{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;background:#16131a}
     .photo{display:none}
     .placeholder{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;text-align:center;padding:24px;color:#f7e9ee;font-size:14px;line-height:1.5}
     .placeholder .symbol{font-size:34px}
     .controls{display:flex;gap:10px;flex-wrap:wrap;margin-top:14px}
-    button{appearance:none;border:0;border-radius:12px;min-height:48px;padding:12px 17px;font:700 14px/1.1 Inter,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;cursor:pointer;touch-action:manipulation}
+    button{appearance:none;border:0;border-radius:12px;min-height:46px;padding:11px 16px;font:700 13px/1.1 Inter,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;cursor:pointer;touch-action:manipulation}
     button:disabled{opacity:.45;cursor:not-allowed}
-    .primary{background:#a94f70;color:#fff;flex:1;min-width:150px;box-shadow:0 4px 12px rgba(169,79,112,.16)}
+    .primary{background:#a94f70;color:#fff;flex:1;min-width:145px;box-shadow:0 4px 12px rgba(169,79,112,.16)}
     .secondary{background:#f7edf1;color:#71344d}
-    .success{background:#18865d;color:#fff;flex:1;min-width:150px}
+    .success{background:#18865d;color:#fff;flex:1;min-width:155px}
+    .danger{background:#fff0f0;color:#a12626}
     .quiet{margin-left:auto}
+    .queueHead{display:flex;align-items:center;justify-content:space-between;gap:8px;margin:16px 0 8px}
+    .queueHead strong{font-size:12px;color:#4b3540}
+    .queueHead span{font-size:11px;color:#776771}
+    #photoQueue{display:grid;grid-template-columns:repeat(auto-fill,minmax(112px,1fr));gap:9px}
+    .photoTile{position:relative;border:1px solid #ead7df;border-radius:12px;background:#fff8fa;padding:6px;min-width:0}
+    .photoTile img{display:block;width:100%;aspect-ratio:4/3;object-fit:cover;border-radius:8px;background:#f4e8ed}
+    .photoTile .photoMeta{display:flex;align-items:center;justify-content:space-between;gap:5px;margin-top:5px;font-size:10px;color:#684d5a}
+    .photoTile .remove{min-height:28px;padding:5px 8px;border-radius:7px;font-size:10px;background:#fff0f0;color:#a12626}
     #status{margin-top:12px;min-height:40px;padding:10px 12px;border-radius:11px;background:#f7f2f4;color:#62505a;font-size:13px;line-height:1.45}
     #status.error{background:#fff0f0;color:#a12626}
     #status.ok{background:#eaf8f0;color:#146342}
     .note{margin:10px 2px 0;color:#796a72;font-size:11px;line-height:1.45}
     .hidden{display:none!important}
-    @media(max-width:520px){body{padding:0;background:#fff}main{min-height:100vh;min-height:100dvh;border:0;border-radius:0;box-shadow:none;padding:calc(12px + env(safe-area-inset-top)) 12px calc(14px + env(safe-area-inset-bottom))}.stage{aspect-ratio:3/4;max-height:62vh;min-height:250px}.controls button{flex:1 1 calc(50% - 6px)}.quiet{margin-left:0}}
-    @media(orientation:landscape) and (max-height:560px){body{padding:8px}main{padding:12px}.stage{aspect-ratio:16/9;max-height:54vh;min-height:150px}h1{font-size:21px;margin-bottom:8px}.controls{margin-top:8px}#status{margin-top:8px}}
+    @media(max-width:520px){body{padding:0;background:#fff}main{min-height:100vh;min-height:100dvh;border:0;border-radius:0;box-shadow:none;padding:calc(12px + env(safe-area-inset-top)) 12px calc(14px + env(safe-area-inset-bottom))}.stage{aspect-ratio:3/4;max-height:54vh;min-height:250px}.controls button{flex:1 1 calc(50% - 6px)}.quiet{margin-left:0}#photoQueue{grid-template-columns:repeat(3,minmax(0,1fr))}}
+    @media(orientation:landscape) and (max-height:560px){body{padding:8px}main{padding:12px}.stage{aspect-ratio:16/9;max-height:45vh;min-height:150px}h1{font-size:21px;margin-bottom:5px}.controls{margin-top:8px}#status{margin-top:8px}}
+    @media(prefers-reduced-motion:reduce){*{scroll-behavior:auto!important;transition:none!important}}
   </style>
 </head>
 <body>
@@ -44,22 +56,33 @@
     <div class="brand"><span class="mark">✿</span><span>Peptèa Glow</span></div>
     <span class="ready" id="connectionBadge">Connecting…</span>
   </header>
-  <h1 id="captureTitle">Capture Photo</h1>
+  <h1 id="captureTitle">Capture Proof Photos</h1>
+  <p class="sub" id="captureDescription">Take multiple photos, review them, remove any you don't need, then attach the selected set to this shipment.</p>
+  <div class="counter" id="photoCounter">0 / 5 photos selected</div>
   <section class="stage" aria-label="Camera preview">
     <video id="video" autoplay playsinline muted></video>
-    <img id="photo" class="photo" alt="Captured photo preview">
+    <img id="photo" class="photo" alt="Photo preview before adding to proof set">
     <div id="placeholder" class="placeholder"><span class="symbol">📷</span><span id="placeholderText">Opening camera…</span></div>
   </section>
   <div class="controls">
     <button id="captureButton" class="primary" type="button" disabled>Take Photo</button>
     <button id="switchButton" class="secondary hidden" type="button">Switch Camera</button>
-    <button id="retakeButton" class="secondary hidden" type="button">Retake</button>
-    <button id="useButton" class="success hidden" type="button">Use Photo</button>
+    <button id="retakeButton" class="secondary hidden" type="button">Retake This Photo</button>
+    <button id="addPhotoButton" class="success hidden" type="button">Add to Photo Set</button>
+  </div>
+  <div class="queueHead">
+    <strong>Selected proof photos</strong>
+    <span id="queueHelp">You can remove any photo before attaching.</span>
+  </div>
+  <div id="photoQueue" aria-live="polite"></div>
+  <div class="controls">
+    <button id="attachButton" class="success" type="button" disabled>Attach Photos (0)</button>
+    <button id="clearButton" class="danger" type="button" disabled>Remove All</button>
     <button id="retryButton" class="primary hidden" type="button">Try Again</button>
     <button id="cancelButton" class="secondary quiet" type="button">Cancel</button>
   </div>
   <div id="status" role="status" aria-live="polite">Connecting to your order…</div>
-  <p class="note">Your photo is attached to the selected proof field only when you tap Use Photo. It is not saved to your device gallery.</p>
+  <p class="note">Photos remain in this temporary camera session until you attach them. They are not saved to your device gallery. You can retake the current photo or remove any selected thumbnail before attaching.</p>
 </main>
 <script>
 (function(){
@@ -68,6 +91,9 @@
   var token = params.get('token') || '';
   var returnOrigin = params.get('returnOrigin') || '';
   var label = params.get('label') || 'Proof Photo';
+  var existingCount = Math.max(0, Math.min(5, parseInt(params.get('existingCount') || '0', 10) || 0));
+  var maxTotal = Math.max(1, Math.min(5, parseInt(params.get('maxPhotos') || '5', 10) || 5));
+  var remainingCapacity = Math.max(0, maxTotal - existingCount);
   var video = document.getElementById('video');
   var photo = document.getElementById('photo');
   var placeholder = document.getElementById('placeholder');
@@ -77,12 +103,18 @@
   var captureButton = document.getElementById('captureButton');
   var switchButton = document.getElementById('switchButton');
   var retakeButton = document.getElementById('retakeButton');
-  var useButton = document.getElementById('useButton');
+  var addPhotoButton = document.getElementById('addPhotoButton');
+  var attachButton = document.getElementById('attachButton');
+  var clearButton = document.getElementById('clearButton');
   var retryButton = document.getElementById('retryButton');
   var cancelButton = document.getElementById('cancelButton');
+  var photoQueue = document.getElementById('photoQueue');
+  var photoCounter = document.getElementById('photoCounter');
+  var queueHelp = document.getElementById('queueHelp');
   var canvas = document.createElement('canvas');
   var stream = null;
-  var capturedDataUrl = '';
+  var currentPhoto = null;
+  var photos = [];
   var currentDeviceId = '';
   var cameraDevices = [];
   var finished = false;
@@ -99,10 +131,7 @@
         host.endsWith('-script.googleusercontent.com') || host.endsWith('.script.googleusercontent.com');
     } catch(e) { return false; }
   }
-  function setStatus(message, kind){
-    status.textContent = message;
-    status.className = kind || '';
-  }
+  function setStatus(message, kind){ status.textContent = message; status.className = kind || ''; }
   function setBadge(text, connected){
     badge.textContent = text;
     badge.style.background = connected ? '#eaf8f0' : '#fff0f0';
@@ -110,25 +139,17 @@
   }
   function stopStream(){
     if (stream) stream.getTracks().forEach(function(track){try{track.stop();}catch(e){}});
-    stream = null;
-    video.srcObject = null;
+    stream = null; video.srcObject = null;
   }
-  function openerAvailable(){
-    try { return !!window.opener && !window.opener.closed; }
-    catch(e) { return false; }
-  }
+  function openerAvailable(){ try { return !!window.opener && !window.opener.closed; } catch(e) { return false; } }
   function sendMessage(message){
     if (!openerAvailable()) { setStatus('Your Fulfillment tab is no longer available. Close this tab and reopen Capture Photo from the order.', 'error'); setBadge('Reconnect needed', false); return false; }
     try { window.opener.postMessage(Object.assign({token:token}, message), returnOrigin); return true; }
     catch(e) { setStatus('Could not connect to Fulfillment. Keep this tab open and retry.', 'error'); return false; }
   }
   function showRetry(message){
-    captureButton.classList.add('hidden');
-    switchButton.classList.add('hidden');
-    retryButton.classList.remove('hidden');
-    placeholder.classList.remove('hidden');
-    placeholderText.textContent = message;
-    setBadge('Camera unavailable', false);
+    captureButton.classList.add('hidden'); switchButton.classList.add('hidden'); retryButton.classList.remove('hidden');
+    placeholder.classList.remove('hidden'); placeholderText.textContent = message; setBadge('Camera unavailable', false);
   }
   function showCameraError(err){
     var name = err && err.name ? err.name : '';
@@ -137,8 +158,7 @@
     else if (name === 'NotFoundError' || name === 'DevicesNotFoundError') message = 'No camera was found. Enable your phone camera or connect a webcam, then try again.';
     else if (name === 'NotReadableError' || name === 'TrackStartError' || name === 'AbortError') message = 'The camera may be in use by another app. Close other camera apps and tap Try Again.';
     else if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) message = 'Camera access is unavailable in this browser. Open Fulfillment in a current browser over HTTPS.';
-    setStatus(message, 'error');
-    showRetry(message);
+    setStatus(message, 'error'); showRetry(message);
   }
   async function refreshCameraDevices(){
     try {
@@ -147,120 +167,132 @@
       cameraDevices = devices.filter(function(d){ return d.kind === 'videoinput' && d.deviceId; });
       var track = stream && stream.getVideoTracks()[0];
       currentDeviceId = track && track.getSettings ? (track.getSettings().deviceId || '') : currentDeviceId;
-      switchButton.classList.toggle('hidden', cameraDevices.length < 2);
+      switchButton.classList.toggle('hidden', cameraDevices.length < 2 || !!currentPhoto);
     } catch(e) { cameraDevices = []; switchButton.classList.add('hidden'); }
   }
-  async function startCamera(deviceId){
-    retryButton.classList.add('hidden');
-    captureButton.disabled = true;
-    switchButton.classList.add('hidden');
-    placeholder.classList.remove('hidden');
-    placeholderText.textContent = 'Opening camera…';
-    photo.style.display = 'none';
-    video.style.display = 'block';
-    stopStream();
-    if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
-      showCameraError(new Error('Camera API unavailable. HTTPS and a supported browser are required.'));
-      return;
+  function updateQueue(){
+    var totalCount = existingCount + photos.length;
+    photoCounter.textContent = totalCount + ' / ' + maxTotal + ' photos selected';
+    queueHelp.textContent = remainingCapacity > photos.length ? 'You can remove any photo or capture another.' : 'Maximum number of photos reached for this proof field.';
+    attachButton.textContent = label.toLowerCase().indexOf('receipt') >= 0 ? 'Attach Receipt' : 'Attach Photos (' + photos.length + ')';
+    attachButton.disabled = photos.length === 0 || sending;
+    clearButton.disabled = photos.length === 0 || sending;
+    captureButton.disabled = !!currentPhoto || photos.length >= remainingCapacity || !stream || sending;
+    captureButton.classList.toggle('hidden', !!currentPhoto || photos.length >= remainingCapacity);
+    switchButton.classList.toggle('hidden', cameraDevices.length < 2 || !!currentPhoto || photos.length >= remainingCapacity);
+    photoQueue.innerHTML = '';
+    photos.forEach(function(item, index){
+      var tile = document.createElement('div'); tile.className = 'photoTile';
+      var img = document.createElement('img'); img.src = item.dataUrl; img.alt = 'Selected photo ' + (index + 1); img.loading = 'lazy';
+      var meta = document.createElement('div'); meta.className = 'photoMeta';
+      var name = document.createElement('span'); name.textContent = 'Photo ' + (index + 1);
+      var remove = document.createElement('button'); remove.type = 'button'; remove.className = 'remove'; remove.textContent = 'Remove';
+      remove.disabled = sending;
+      remove.addEventListener('click', function(){ photos.splice(index, 1); updateQueue(); setStatus('Photo removed. The remaining photos are still selected.', 'ok'); });
+      meta.appendChild(name); meta.appendChild(remove); tile.appendChild(img); tile.appendChild(meta); photoQueue.appendChild(tile);
+    });
+    if (!photos.length) {
+      var empty = document.createElement('div'); empty.className = 'sub'; empty.style.gridColumn = '1 / -1'; empty.textContent = 'No photos selected yet. Take a photo above to add it here.'; photoQueue.appendChild(empty);
     }
+  }
+  function showLiveCamera(message){
+    currentPhoto = null;
+    photo.removeAttribute('src'); photo.style.display = 'none'; video.style.display = 'block';
+    placeholder.classList.add('hidden'); captureButton.classList.remove('hidden'); retakeButton.classList.add('hidden'); addPhotoButton.classList.add('hidden');
+    updateQueue();
+    if (message) setStatus(message, 'ok');
+  }
+  function showRetryPreview(){
+    photo.src = currentPhoto.dataUrl; photo.style.display = 'block'; video.style.display = 'none'; placeholder.classList.add('hidden');
+    captureButton.classList.add('hidden'); switchButton.classList.add('hidden'); retakeButton.classList.remove('hidden'); addPhotoButton.classList.remove('hidden');
+    retakeButton.disabled = false; addPhotoButton.disabled = false;
+  }
+  async function startCamera(deviceId){
+    retryButton.classList.add('hidden'); captureButton.disabled = true; switchButton.classList.add('hidden');
+    placeholder.classList.remove('hidden'); placeholderText.textContent = 'Opening camera…';
+    photo.style.display = 'none'; video.style.display = 'block'; stopStream();
+    if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) { showCameraError(new Error('Camera API unavailable. HTTPS and a supported browser are required.')); return; }
     try {
       var videoConstraint = deviceId ? {deviceId:{exact:deviceId},width:{ideal:1920},height:{ideal:1080}} : {facingMode:{ideal:'environment'},width:{ideal:1920},height:{ideal:1080}};
       stream = await navigator.mediaDevices.getUserMedia({video:videoConstraint,audio:false});
-      video.srcObject = stream;
-      video.muted = true;
-      await video.play();
-      var track = stream.getVideoTracks()[0];
-      currentDeviceId = track && track.getSettings ? (track.getSettings().deviceId || '') : (deviceId || '');
-      placeholder.classList.add('hidden');
-      captureButton.classList.remove('hidden');
-      captureButton.disabled = false;
-      retakeButton.classList.add('hidden');
-      useButton.classList.add('hidden');
-      retryButton.classList.add('hidden');
-      await refreshCameraDevices();
-      setBadge('Camera ready', true);
-      setStatus('Ready. Frame your ' + label.toLowerCase() + ' and tap Take Photo.', 'ok');
+      video.srcObject = stream; video.muted = true; await video.play();
+      var track = stream.getVideoTracks()[0]; currentDeviceId = track && track.getSettings ? (track.getSettings().deviceId || '') : (deviceId || '');
+      placeholder.classList.add('hidden'); captureButton.classList.remove('hidden'); retryButton.classList.add('hidden');
+      await refreshCameraDevices(); setBadge('Camera ready', true);
+      updateQueue();
+      setStatus(remainingCapacity > 0 ? 'Ready. Frame your ' + label.toLowerCase() + ' and tap Take Photo. You can capture several, then remove any before attaching.' : 'This field already has its maximum number of photos.', 'ok');
     } catch(err){ showCameraError(err); }
+  }
+  async function blobToDataUrl_(blob){
+    return await new Promise(function(resolve,reject){
+      var reader = new FileReader(); reader.onload = function(){resolve(String(reader.result || ''));};
+      reader.onerror = function(){reject(new Error('Could not prepare the captured photo.'));}; reader.readAsDataURL(blob);
+    });
   }
   async function makePhoto(){
     if (!stream || !video.videoWidth || !video.videoHeight) { setStatus('The camera preview is not ready. Wait a moment and try again.', 'error'); return; }
     captureButton.disabled = true;
-    var maxEdge = 1920;
-    var scale = Math.min(1, maxEdge / Math.max(video.videoWidth, video.videoHeight));
-    canvas.width = Math.max(1, Math.round(video.videoWidth * scale));
-    canvas.height = Math.max(1, Math.round(video.videoHeight * scale));
-    var context = canvas.getContext('2d', {alpha:false});
-    context.drawImage(video, 0, 0, canvas.width, canvas.height);
-    var blob = await new Promise(function(resolve){ canvas.toBlob(resolve, 'image/jpeg', 0.82); });
-    if (!blob) { captureButton.disabled = false; setStatus('Could not prepare this photo. Please try again.', 'error'); return; }
-    if (blob.size > 2600 * 1024) {
-      var smaller = document.createElement('canvas');
-      var reduce = Math.sqrt((2600*1024) / blob.size) * 0.94;
-      smaller.width = Math.max(1, Math.round(canvas.width * reduce));
-      smaller.height = Math.max(1, Math.round(canvas.height * reduce));
-      smaller.getContext('2d', {alpha:false}).drawImage(canvas,0,0,smaller.width,smaller.height);
-      blob = await new Promise(function(resolve){ smaller.toBlob(resolve,'image/jpeg',0.76); });
-    }
-    if (!blob || blob.size > 3000 * 1024) { captureButton.disabled = false; setStatus('This photo is too large to transfer. Move closer to the proof and take it again.', 'error'); return; }
-    capturedDataUrl = await new Promise(function(resolve,reject){
-      var reader = new FileReader();
-      reader.onload = function(){resolve(String(reader.result || ''));};
-      reader.onerror = function(){reject(new Error('Could not prepare the captured photo.'));};
-      reader.readAsDataURL(blob);
-    });
-    photo.src = capturedDataUrl;
-    photo.style.display = 'block';
-    video.style.display = 'none';
-    stopStream(); // Release the camera while the user reviews the still image.
-    captureButton.classList.add('hidden');
-    switchButton.classList.add('hidden');
-    retakeButton.classList.remove('hidden');
-    useButton.classList.remove('hidden');
-    useButton.disabled = false;
-    setStatus('Check the photo. Retake it or choose Use Photo to attach it to your order.', 'ok');
+    try {
+      var maxEdge = 1600, scale = Math.min(1, maxEdge / Math.max(video.videoWidth, video.videoHeight));
+      canvas.width = Math.max(1, Math.round(video.videoWidth * scale)); canvas.height = Math.max(1, Math.round(video.videoHeight * scale));
+      var context = canvas.getContext('2d', {alpha:false});
+      if (!context) throw new Error('Image processing is not available in this browser.');
+      context.drawImage(video, 0, 0, canvas.width, canvas.height);
+      var blob = await new Promise(function(resolve){ canvas.toBlob(resolve, 'image/jpeg', 0.78); });
+      if (!blob) throw new Error('Could not prepare this photo. Please try again.');
+      if (blob.size > 1400 * 1024) {
+        var smaller = document.createElement('canvas'); var reduce = Math.sqrt((1400*1024) / blob.size) * 0.94;
+        smaller.width = Math.max(1, Math.round(canvas.width * reduce)); smaller.height = Math.max(1, Math.round(canvas.height * reduce));
+        var smallerContext = smaller.getContext('2d', {alpha:false});
+        if (!smallerContext) throw new Error('Image compression is unavailable.');
+        smallerContext.drawImage(canvas, 0, 0, smaller.width, smaller.height);
+        blob = await new Promise(function(resolve){ smaller.toBlob(resolve, 'image/jpeg', 0.72); });
+      }
+      if (!blob || blob.size > 1500 * 1024) throw new Error('This photo is still too large. Retake it at a closer distance or use a smaller resolution.');
+      currentPhoto = { dataUrl: await blobToDataUrl_(blob), fileName: 'pepteaglow-proof-' + Date.now() + '.jpg', mimeType: 'image/jpeg', size: blob.size };
+      showRetryPreview(); setStatus('Review this photo. Retake it, or add it to your proof set. You can remove it later before attaching.', 'ok');
+    } catch(err){ captureButton.disabled = false; setStatus(err && err.message ? err.message : String(err), 'error'); }
+  }
+  function addCurrentPhoto(){
+    if (!currentPhoto || photos.length >= remainingCapacity) return;
+    photos.push(currentPhoto); currentPhoto = null; showLiveCamera('Photo added to your set. Take another photo or remove any selected thumbnail.');
+  }
+  function retakeCurrentPhoto(){
+    currentPhoto = null; showLiveCamera('Ready to retake. Your previously selected photos are still saved in this temporary set.');
   }
   async function switchCamera(){
-    if (cameraDevices.length < 2) return;
+    if (cameraDevices.length < 2 || currentPhoto) return;
     var idx = cameraDevices.findIndex(function(d){return d.deviceId === currentDeviceId;});
-    var next = cameraDevices[(idx + 1 + cameraDevices.length) % cameraDevices.length];
-    await startCamera(next.deviceId);
+    var next = cameraDevices[(idx + 1 + cameraDevices.length) % cameraDevices.length]; await startCamera(next.deviceId);
   }
-  function returnCapturedPhoto(){
-    if (!capturedDataUrl || finished || sending) return;
-    if (!openerAvailable()) { setStatus('Your Fulfillment tab has closed. This photo cannot be attached. Reopen Capture Photo from the order.', 'error'); setBadge('Reconnect needed', false); return; }
-    sending = true;
-    useButton.disabled = true;
-    setStatus('Attaching photo to your order…', '');
-    var ok = sendMessage({type:'PEPTEA_CAMERA_CAPTURE',mimeType:'image/jpeg',fileName:'pepteaglow-proof-'+Date.now()+'.jpg',dataUrl:capturedDataUrl});
-    if (!ok) { sending = false; useButton.disabled = false; return; }
+  function attachPhotos(){
+    if (!photos.length || finished || sending) return;
+    if (!openerAvailable()) { setStatus('Your Fulfillment tab has closed. These photos cannot be attached. Reopen Capture Photo from the order.', 'error'); setBadge('Reconnect needed', false); return; }
+    sending = true; attachButton.disabled = true; clearButton.disabled = true;
+    photos.forEach(function(){ /* Prevent UI controls changing while the batch is transferred. */ });
+    setStatus('Attaching ' + photos.length + ' photo(s) to the selected proof field…', '');
+    var payloadPhotos = photos.map(function(item){ return {dataUrl:item.dataUrl,fileName:item.fileName,mimeType:item.mimeType}; });
+    var ok = sendMessage({type:'PEPTEA_CAMERA_CAPTURE_BATCH',photos:payloadPhotos});
+    if (!ok) { sending = false; updateQueue(); return; }
     ackTimeoutId = window.setTimeout(function(){
-      if (!finished) {
-        sending = false;
-        useButton.disabled = false;
-        setStatus('No confirmation received yet. Keep this photo and tap Use Photo to retry, or return to Fulfillment and use the file picker.', 'error');
-      }
-    }, 12000);
+      if (!finished) { sending = false; updateQueue(); setStatus('No confirmation received yet. Your photos are still here. Tap Attach Photos to retry, or remove an image and try again.', 'error'); }
+    }, 20000);
   }
   function cancelCapture(){
+    if (sending) return;
+    if (photos.length || currentPhoto) {
+      if (!window.confirm('Close the camera and discard the photos in this temporary set?')) return;
+    }
     if (!finished) sendMessage({type:'PEPTEA_CAMERA_CANCELLED'});
-    finished = true;
-    if (ackTimeoutId) window.clearTimeout(ackTimeoutId);
-    stopStream();
+    finished = true; if (ackTimeoutId) window.clearTimeout(ackTimeoutId); stopStream();
     try { window.close(); } catch(e) {}
-    setStatus('Capture cancelled. You can return to Fulfillment.');
   }
-
   captureButton.addEventListener('click', function(){ makePhoto().catch(function(err){ captureButton.disabled=false; showCameraError(err); }); });
   switchButton.addEventListener('click', function(){ switchCamera().catch(showCameraError); });
-  retakeButton.addEventListener('click', function(){
-    capturedDataUrl = '';
-    photo.removeAttribute('src');
-    photo.style.display = 'none';
-    retakeButton.classList.add('hidden');
-    useButton.classList.add('hidden');
-    startCamera(currentDeviceId || '');
-  });
-  useButton.addEventListener('click', returnCapturedPhoto);
+  retakeButton.addEventListener('click', retakeCurrentPhoto);
+  addPhotoButton.addEventListener('click', addCurrentPhoto);
+  attachButton.addEventListener('click', attachPhotos);
+  clearButton.addEventListener('click', function(){ if (sending) return; if (window.confirm('Remove all selected photos from this temporary set?')) { photos = []; updateQueue(); setStatus('All selected photos were removed.'); } });
   retryButton.addEventListener('click', function(){ startCamera(); });
   cancelButton.addEventListener('click', cancelCapture);
   window.addEventListener('message', function(event){
@@ -268,49 +300,37 @@
     if (event.data.type !== 'PEPTEA_CAMERA_CAPTURE_ACK') return;
     if (ackTimeoutId) window.clearTimeout(ackTimeoutId);
     if (event.data.success) {
-      finished = true;
-      sending = false;
-      stopStream();
-      setBadge('Photo attached', true);
-      setStatus('Photo attached successfully. Returning to Fulfillment…', 'ok');
-      window.setTimeout(function(){ try{window.close();}catch(e){} }, 500);
+      finished = true; sending = false; stopStream(); setBadge('Photos attached', true);
+      setStatus(event.data.message || 'Photos attached successfully. Returning to Fulfillment…', 'ok');
+      window.setTimeout(function(){ try{window.close();}catch(e){} }, 700);
     } else {
-      sending = false;
-      useButton.disabled = false;
-      setStatus(event.data.message || 'The photo could not be attached. You can retry or cancel.', 'error');
+      sending = false; updateQueue(); setStatus(event.data.message || 'The photos could not be attached. Your selected set is still here; remove or retry.', 'error');
     }
   });
   window.addEventListener('beforeunload', stopStream);
 
   document.getElementById('captureTitle').textContent = 'Capture ' + label;
+  document.getElementById('captureDescription').textContent = remainingCapacity > 1
+    ? 'Capture up to ' + remainingCapacity + ' additional photos. Review the thumbnails, remove any you do not need, then attach the set.'
+    : 'Capture and review a photo. You can retake it before attaching it to this proof field.';
   if (!token || !/^[a-f0-9]{48}$/i.test(token) || !allowedParentOrigin(returnOrigin) || !openerAvailable()) {
-    captureButton.disabled = true;
-    cancelButton.textContent = 'Close';
+    captureButton.disabled = true; cancelButton.textContent = 'Close';
     showRetry('This camera page must be opened from an order in Fulfillment. Close this tab and try again.');
-    setStatus('Unable to connect to Fulfillment. Open the camera using the Capture Photo button on an order.', 'error');
-    setBadge('Not connected', false);
+    setStatus('Unable to connect to Fulfillment. Open the camera using the Capture Photo button on an order.', 'error'); setBadge('Not connected', false);
+  } else if (remainingCapacity <= 0) {
+    captureButton.disabled = true; setStatus('This proof field already contains the maximum number of photos. Remove a selected photo in Fulfillment before opening the camera again.', 'error'); setBadge('Photo limit reached', false); updateQueue();
   } else {
-    setBadge('Connected', true);
-    setStatus('Connected. Requesting camera access…');
+    setBadge('Connected', true); updateQueue(); setStatus('Connected. Requesting camera access…');
     sendMessage({type:'PEPTEA_CAMERA_READY'});
     openerCheckId = window.setInterval(function(){
       if (!openerAvailable() && !finished) {
-        setBadge('Connection lost', false);
-        if (!sending) setStatus('Your Fulfillment tab is no longer available. This photo cannot be attached.', 'error');
-        captureButton.disabled = true;
-        useButton.disabled = true;
-        if (stream) stopStream();
+        setBadge('Connection lost', false); if (!sending) setStatus('Your Fulfillment tab is no longer available. This photo set cannot be attached.', 'error');
+        captureButton.disabled = true; attachButton.disabled = true; if (stream) stopStream();
       }
     }, 1500);
-    // Auto-start as soon as the authenticated camera page opens. The browser may
-    // display its standard permission prompt on first use; this cannot be bypassed.
     startCamera();
   }
-  window.addEventListener('unload', function(){
-    stopStream();
-    if (openerCheckId) window.clearInterval(openerCheckId);
-    if (ackTimeoutId) window.clearTimeout(ackTimeoutId);
-  });
+  window.addEventListener('unload', function(){ stopStream(); if (openerCheckId) window.clearInterval(openerCheckId); if (ackTimeoutId) window.clearTimeout(ackTimeoutId); });
 })();
 </script>
 </body>
